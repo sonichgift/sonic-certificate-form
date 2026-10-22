@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Подарочный сертификат</title>
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  background:#f7f4ef;
+  color:#111;
+  font-family:Georgia, 'Times New Roman', serif;
+}
+
+.hero{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:60px 20px;
+}
+
+.certificate-image{
+  width:100%;
+  max-width:980px;
+  border-radius:22px;
+  box-shadow:0 30px 80px rgba(0,0,0,.15);
+  animation:softAppear 1.2s ease forwards;
+}
+
+.info{
+  min-height:100vh;
+  padding:90px 20px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.card{
+  width:100%;
+  max-width:760px;
+  background:rgba(255,255,255,.86);
+  border-radius:28px;
+  padding:55px 45px;
+  text-align:center;
+  box-shadow:0 25px 70px rgba(0,0,0,.08);
+}
+
+.label{
+  font-size:13px;
+  letter-spacing:.25em;
+  text-transform:uppercase;
+  color:#777;
+  margin-bottom:12px;
+}
+
+.value{
+  font-size:34px;
+  line-height:1.35;
+  font-style:italic;
+  margin-bottom:38px;
+}
+
+.message{
+  font-size:28px;
+  line-height:1.55;
+  font-style:italic;
+  margin-bottom:38px;
+}
+
+.contact-text{
+  margin-top:45px;
+  margin-bottom:18px;
+  font-size:20px;
+  line-height:1.7;
+  color:#555;
+  font-style:italic;
+}
+
+.arrow{
+  margin-top:14px;
+  font-size:34px;
+  animation:arrowMove 2s ease-in-out infinite;
+}
+
+.button{
+  display:inline-block;
+  margin-top:10px;
+  padding:18px 34px;
+  background:#111;
+  color:#fff;
+  text-decoration:none;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  font-size:13px;
+}
+
+.fade-up{
+  opacity:0;
+  transform:translateY(35px);
+  transition:all 1s ease;
+}
+
+.fade-up.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+@keyframes softAppear{
+  from{opacity:0; transform:translateY(25px) scale(.98)}
+  to{opacity:1; transform:translateY(0) scale(1)}
+}
+
+@keyframes arrowMove{
+  0%{transform:translateY(0); opacity:.7}
+  50%{transform:translateY(8px); opacity:1}
+  100%{transform:translateY(0); opacity:.7}
+}
+
+@media(max-width:700px){
+  .hero{min-height:auto; padding:30px 14px}
+  .certificate-image{border-radius:14px}
+  .info{padding:50px 14px}
+  .card{padding:35px 24px}
+  .value{font-size:26px}
+  .message{font-size:23px}
+  .contact-text{font-size:18px}
+}
+</style>
+</head>
+
+<body>
+
+<section class="hero">
+  <img src="certificate.jpg" class="certificate-image" alt="Подарочный сертификат">
+</section>
+
+<section class="info">
+  <div class="card">
+
+    <div class="fade-up">
+      <div class="label">Кому</div>
+      <div class="value" id="to">Анне ✨</div>
+    </div>
+
+    <div class="fade-up">
+      <div class="label">От кого</div>
+      <div class="value" id="from">От Максима</div>
+    </div>
+
+    <div class="fade-up" id="sessionTypeBlock" hidden>
+      <div class="label">Вид фотосессии / Тариф</div>
+      <div class="value" id="sessionType"></div>
+    </div>
+
+    <div class="fade-up">
+      <div class="label">Пожелание</div>
+      <div class="message" id="message">
+        Пусть эта фотосессия подарит тебе яркие эмоции и красивые воспоминания.
+      </div>
+    </div>
+
+    <div class="fade-up">
+      <div class="label">Сертификат №</div>
+      <div class="value" id="certid">MS-00124</div>
+    </div>
+
+    <div class="fade-up contact-text">
+      Чтобы воспользоваться сертификатом,<br>
+      напиши в Instagram и нажми на кнопку ниже 🫶🏻
+      <div class="arrow">↓</div>
+    </div>
+
+    <a class="button fade-up" href="https://www.instagram.com/sonich.ph" target="_blank">
+      Перейти в Instagram
+    </a>
+
+  </div>
+</section>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+
+const to = params.get("to");
+const from = params.get("from");
+const sessionType = params.get("sessionType");
+const message = params.get("message");
+const id = params.get("id");
+
+if(to) document.getElementById("to").innerText = to;
+if(from) document.getElementById("from").innerText = from;
+if(sessionType) {
+  document.getElementById("sessionType").innerText = sessionType;
+  document.getElementById("sessionTypeBlock").hidden = false;
+}
+if(message) document.getElementById("message").innerText = message;
+if(id) document.getElementById("certid").innerText = id;
+
+const elements = document.querySelectorAll(".fade-up");
+
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach((entry,index)=>{
+    if(entry.isIntersecting){
+      setTimeout(()=>{
+        entry.target.classList.
+          add("show");
+      }, index * 120);
+    }
+  });
+},{threshold:.2});
+
+elements.forEach(el=>observer.observe(el));
+</script>
+
+</body>
+</html>
