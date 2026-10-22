@@ -150,6 +150,11 @@ body{
       <div class="value" id="from">От Максима</div>
     </div>
 
+    <div class="fade-up" id="sessionTypeBlock" hidden>
+      <div class="label">Вид фотосессии / Тариф</div>
+      <div class="value" id="sessionType"></div>
+    </div>
+
     <div class="fade-up">
       <div class="label">Пожелание</div>
       <div class="message" id="message">
@@ -180,11 +185,16 @@ const params = new URLSearchParams(window.location.search);
 
 const to = params.get("to");
 const from = params.get("from");
+const sessionType = params.get("sessionType");
 const message = params.get("message");
 const id = params.get("id");
 
 if(to) document.getElementById("to").innerText = to;
 if(from) document.getElementById("from").innerText = from;
+if(sessionType) {
+  document.getElementById("sessionType").innerText = sessionType;
+  document.getElementById("sessionTypeBlock").hidden = false;
+}
 if(message) document.getElementById("message").innerText = message;
 if(id) document.getElementById("certid").innerText = id;
 
